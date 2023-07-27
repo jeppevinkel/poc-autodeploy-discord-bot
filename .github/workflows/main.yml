@@ -14,8 +14,7 @@ jobs:
       uses: actions/setup-node@v3.7.0
       with:
         # Version Spec of the version to use. Examples: 12.x, 10.15.1, >=10.15.0.
-        node-version: 18.x
-        architecture: 'armv7l'
+        node-version: '>=18.x'
         # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm.
         cache: npm
         
@@ -23,6 +22,11 @@ jobs:
       run: |
         npm install
         npx tsc
+        
+    - name: Prepare files for upload
+      run: |
+        mv package.json ./dist
+        
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
