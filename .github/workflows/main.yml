@@ -40,17 +40,14 @@ jobs:
         if-no-files-found: warn
         # Duration after which artifact will expire in days. 0 means using default retention.
         retention-days: 2
+        
   deploy:
-    name: Deploy
+    name: Trigger Deploy Workflow
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: octokit/request-action@v2.x
-        id: get_artifacts
+      - name: Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
         with:
-          route: GET /repos/{repository}/actions/artifacts
-          repository: ${{ github.repository }}
-          run_id: ${{ github.run_id }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: "echo latest artifacts: '${{ steps.get_artifacts.outputs.data }}'"
+          event-type: deploy
+          client-payload: '{"run_id": "${{ github.run_id }}"}'
