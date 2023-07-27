@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  workflow_run:
+    workflows: [Build]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: octokit/request-action@v2.x
+        id: get_artifacts
+        with:
+          route: GET /repos/{repository}/actions/runs/{run_id}/artifacts
+          repository: ${{ github.repository }}
+          run_id: ${{ github.event.workflow_run.id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo latest artifacts: '${{ steps.get_artifacts.outputs.data }}'"
