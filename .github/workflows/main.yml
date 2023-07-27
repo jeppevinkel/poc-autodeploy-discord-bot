@@ -41,13 +41,13 @@ jobs:
         # Duration after which artifact will expire in days. 0 means using default retention.
         retention-days: 2
         
-  deploy:
-    name: Trigger Deploy Workflow
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          event-type: deploy
-          client-payload: '{"run_id": "${{ github.run_id }}"}'
+#  deploy:
+#    name: Trigger Deploy Workflow
+#    needs: build
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Repository Dispatch
+#        uses: peter-evans/repository-dispatch@v2
+#        with:
+#          event-type: deploy
+#          client-payload: '{"run_id": "${{ github.run_id }}"}'
