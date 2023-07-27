@@ -48,7 +48,7 @@ jobs:
       - uses: octokit/request-action@v2.x
         id: get_artifacts
         with:
-          route: GET /repos/{repository}/actions/runs/{run_id}/artifacts
+          route: GET /repos/{repository}/actions/artifacts
           repository: ${{ github.repository }}
           run_id: ${{ github.run_id }}
         env:
